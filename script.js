@@ -1,5 +1,5 @@
 
-// Heart count code----
+// Heart count code---->
 let hearts = document.getElementsByClassName('heart');
 let heartCount = document.getElementById('heart-count');
 let count = 0;
@@ -11,14 +11,30 @@ let count = 0;
       });
 }
 
-document.querySelectorAll(".heart").forEach(icon => {
-  icon.addEventListener("click", function() {
-    this.classList.toggle("liked");
+
+//   copy button code----->
+   let copyCount = 0;
+  const copyCountEl = document.getElementById("copy-count");
+
+  document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const card = this.closest(".card");
+      const hotlineEl = card.querySelector(".hotline");
+
+      const hotline = hotlineEl.textContent.trim();
+
+      navigator.clipboard.writeText(hotline).then(() => {
+        alert(`Hotline ${hotline} copied✅`);
+        
+        copyCount++;
+        copyCountEl.textContent = copyCount;
+      })
+      
+    });
   });
-});
 
 
-// call section (make call/ call history/ clear btn) code---
+// call section (make call/ call history/ clear btn) code--->
   let coins = parseInt(document.getElementById("coin-count").textContent);
   const coinCountEl = document.getElementById("coin-count");
   const callHistoryList = document.querySelector("#call-history ul");
@@ -45,37 +61,25 @@ document.querySelectorAll(".heart").forEach(icon => {
       const timeString = now.toLocaleTimeString();
 
       const li = document.createElement("li");
-      li.textContent = `${serviceName} - ${serviceNumber} - at : ${timeString}`;
-      callHistoryList.prepend(li);
-    });
-  });
-    clearBtn.addEventListener("click", () => {
-    callHistoryList.innerHTML = "";
-  });
-
-
-
-//   copy button code-----
-   let copyCount = 0;
-  const copyCountEl = document.getElementById("copy-count");
-
-  document.querySelectorAll(".copy-btn").forEach(btn => {
-    btn.addEventListener("click", function() {
-      const card = this.closest(".card");
-      const hotlineEl = card.querySelector(".hotline");
-
-      const hotline = hotlineEl.textContent.trim();
-
-      navigator.clipboard.writeText(hotline).then(() => {
-        alert(`Hotline ${hotline} copied✅`);
-        
-        copyCount++;
-        copyCountEl.textContent = copyCount;
-      })
+      li.style.display = "flex";
+      li.style.justifyContent = "space-between";
+      li.style.marginBottom = "6px";
+            
+      const leftSpan = document.createElement("span");
+      leftSpan.textContent = `${serviceName} - ${serviceNumber}`;
       
-    });
+      const rightSpan = document.createElement("span");
+      rightSpan.textContent = timeString;
+      
+      li.appendChild(leftSpan);
+      li.appendChild(rightSpan);
+      
+      callHistoryList.prepend(li);
+          });
+        });
+          clearBtn.addEventListener("click", () => {
+          callHistoryList.innerHTML = "";
   });
-
 
 
 
